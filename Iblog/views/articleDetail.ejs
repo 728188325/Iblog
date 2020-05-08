@@ -1,0 +1,115 @@
+	<%- include('./partials/header.ejs') %>
+	<title>神奇的海蛎仔个人博客</title>
+	<link rel="stylesheet" href="/stylesheets/articleDetail.css">
+	<style>
+		.thumbUp-box{
+			position: fixed;
+			left: 50%;
+			top: 370px;
+			margin-left: -650px;
+			width: 100px;
+			height: 100px;
+			text-align: center;
+		}
+		.thumbUp-box-icon{
+			display: table-cell;
+			width: 100px;
+			height: 100px;
+			border-radius: 100px;
+			background: #4150a2;
+			text-align: center;
+			vertical-align: middle;
+			cursor: pointer;
+		}
+		.thumbUp-box-icon i{
+			font-size: 60px;
+    		color: #c3c3c3;
+			transition-duration: .5s;
+		}
+		.thumbUp-box-num{
+			display: inline-block;
+			margin-top: 8px;
+			color: #8a8a8a;
+		}
+		.thumbUp-box-icon:active i{
+			transform: translateY(-18px);
+		}
+	</style>
+</head>
+
+<body>
+	<%- include("./partials/nav.ejs",{currentUrl:article.type==0?'/weimei':'/rizhi'}) %>
+	<div class="thumbUp-box" id="<%= article._id %>">
+		<div class="thumbUp-box-icon"><i class="fa fa-thumbs-up" aria-hidden="true"></i></div>
+		<span class="thumbUp-box-num"><%= article.thumbUp||0 %></span>
+	</div>
+	<div class="main">
+		<div class="main-left">
+			<div class="main-location clearfix">
+				<span>当前位置：</span>
+				<a href="/">主页</a>>
+				<% if(article.type==0){ %>
+					<a href="/weimei">唯美语录</a>>
+				<% }else{ %>
+					<a href="/rizhi">日志</a>>
+				<% } %>
+				<span>文章</span>
+				<a href="javascript:history.go(-1)" class="fr">返回列表</a>
+			</div>
+			<div class="main-content">
+				<div class="article">
+					<h2 class="article-title"><%= article.title %></h2>
+					<div class="article-info">
+						<div class="article-info-item">
+							<span>发布时间：</span><span><%= article.createTime %></span>
+						</div>
+						<div class="article-info-item">
+							<span>点赞人数：</span><span class="article-info-thumbUp"><%= article.thumbUp||0 %></span>
+						</div>
+						<div class="article-info-item">
+							<span>阅读人数：</span><span><%= article.readNum||0 %></span>
+						</div>
+						<div class="article-info-item">
+							<span>评论：</span><span>0</span>
+						</div>
+					</div>
+					<div class="article-content">
+						<%- article.content %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<%- include("./partials/right.ejs") %>
+	</div>
+	<%- include("./partials/footer.ejs") %>
+	<script src="/javascripts/layui/layui.js"></script>
+	<script>
+		layui.use(['layer'], function () {
+			$(".thumbUp-box-icon").on("click",function(){
+				let id = $(this).parent().attr("id");
+				$.ajax({
+					url: "/articles/thumbUp",
+					type: "post",
+					data: {
+						id: id
+					},
+					dataType:"json",
+					success: function(data){
+						if(data.status==200){
+							let num = $(".thumbUp-box-num").text();
+							num = parseInt(num)+1;
+							$(".thumbUp-box-num").text(num);
+							$(".article-info-thumbUp").text(num);
+						}else{
+							layer.msg(data.msg,{time:2000});
+						}
+					}
+				})
+			})
+
+		});
+	</script>
+
+</body>
+
+</html>

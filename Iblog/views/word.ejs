@@ -1,0 +1,231 @@
+<%- include('./partials/header.ejs') %>
+<title>神奇的海蛎仔个人博客</title>
+<link rel="stylesheet" href="/javascripts/layui/css/layui.css">
+<link rel="stylesheet" href="/stylesheets/word.css">
+</head>
+
+<body>
+	<%- include("./partials/nav.ejs",{currentUrl:'/word'}) %>
+	<div class="word-main">
+		<form class="layui-form" action="" lay-filter="example">
+			<textarea class="layui-textarea layui-hide" name="content" lay-verify="content"
+				id="LAY_demo_editor"></textarea>
+			<div class="layui-form-item">
+				<button type="button" class="layui-btn fr" lay-submit="" lay-filter="demo1" id="leaveMsg">
+					留言
+				</button>
+				<button type="button" class="layui-btn layui-btn-primary fr" id="btn-clear">清空</button>
+			</div>
+		</form>
+		<ul class="site-idea" id="msgList">
+			<!-- <li>
+				<a href="javascript:void(0);" style="text-decoration: none;">
+					<div name="liContent">
+						<h2>2020/04/20 22:32:43</h2>
+						<p>我很爱你，但是不喜欢你啦……......</p>
+					</div>
+					<h3>来自: CHINA</h3>
+					<h4 onclick="like_it('fa99d5eb-0ff4-415e-a2cc-a9b2ce5e4d19');"><i class="fa fa-thumbs-up"
+							aria-hidden="true"></i><span id="l_fa99d5eb-0ff4-415e-a2cc-a9b2ce5e4d19">（0）</span></h4>
+					<h4 onclick="showReply('fa99d5eb-0ff4-415e-a2cc-a9b2ce5e4d19');"><i class="fa fa-commenting"
+							aria-hidden="true"></i>（0）</h4>
+				</a>
+			</li> -->
+		</ul>
+		<p class="list-load-tip">正在加载中...</p>
+		<!-- <div id="paginate"></div> -->
+	</div>
+	<%- include("./partials/footer.ejs") %>
+
+	<script id="msgDetail" type="text/html">
+		{{each $data val key}}
+		<li>
+			<a href="/words/detail?id={{val._id}}" style="text-decoration: none;">
+				<div name="liContent">
+					<h2>{{val.createTime}}</h2>
+					<p>{{@val.content}}</p>
+				</div>
+				<h3>来自: {{val.from}}</h3>
+				<h4 onclick="thumbUp(this,'{{val._id}}')"><i class="fa fa-thumbs-up" aria-hidden="true" onclick="javascript:return false;"></i><span
+						onclick="javascript:return false;">（{{val.thumbUp}}）</span></h4>
+				<h4><i class="fa fa-commenting"
+						aria-hidden="true"></i>（{{val.commentNum}}）</h4>
+			</a>
+		</li>
+		{{/each}}
+	</script>
+
+	<script src="/javascripts/layui/layui.js"></script>
+	<script>
+		//点赞
+		function thumbUp(event,id){
+			event = event || window.event; 
+			if(event.preventDefault){
+				event.preventDefault();
+			}else{
+				event.returnValue = false;
+			}
+			$.ajax({
+				url: "/words/thumbUp",
+				type: "post",
+				data: {
+					id: id
+				},
+				dataType:"json",
+				success: function(data){
+					layer.msg(data.msg,{time:2000});
+					console.log(data);
+					if(data.status==200){
+						let num = $(event).children("span").text().substr(1);
+						num = parseInt(num.substr(0,num.length-1))+1;
+						$(event).children("span").text("（"+num+"）");
+					}
+				}
+			})
+		}
+		layui.use(['layedit', 'upload', 'laypage'], function () {
+			const layer = layui.layer,
+				layedit = layui.layedit,
+				$ = layui.jquery,
+				upload = layui.upload,
+				laypage = layui.laypage;
+
+			let flag = true,
+				page = 1,
+				limit = 5;
+				count = 6;
+			getMoreMsgList(page,limit);
+			$(document).scroll(async function(){
+				if(page*limit>=count) return;
+				let _scrollTop = $(document).scrollTop();
+				let viewHeight = $(window).height();
+				let documentHeight = $(document).height();
+				if(flag&&documentHeight-_scrollTop-viewHeight<100){
+					flag = false;
+					page++;
+					await getMoreMsgList(page,limit);
+					flag = true;
+				}
+			})
+			//创建一个编辑器
+			let editIndex = layedit.build('LAY_demo_editor', {
+				tool: ['face', 'image'],
+				height: 150,
+				uploadImage: {
+                    url: '/words/uploadImg', //接口url
+                    type: 'post' //默认post
+                }
+			});
+			/* laypage.render({
+				elem: 'paginate',
+				count: 70, //数据总数，从服务端得到
+				groups: 3,
+				first: '首页',
+				last: '末页',
+				jump: function (obj, first) {
+					//obj包含了当前分页的所有参数，比如：
+					console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+					console.log(obj.limit); //得到每页显示的条数
+
+					//首次不执行
+					if (!first) {
+						//do something
+					}
+				}
+			}); */
+			$("#btn-clear").on("click",function(){
+				$('.layui-form #LAY_layedit_1').contents().find('body').html('');
+			})
+			$("#leaveMsg").on("click",function(){
+				let content = layedit.getContent(editIndex);
+				if($.trim(content)==""){
+					return layer.msg("请输入留言内容~",{time:2000});
+				}
+				let param = {
+					content:content,
+					from: "CHINA"
+				}
+				$.ajax({
+					type: "post",
+					url:"/words/publish",
+					dataType:"json",
+					data:param,
+					success: (data) =>{
+						layer.msg(data.msg,{time:2000});
+						if(data.status==200){
+							$('.layui-form #LAY_layedit_1').contents().find('body').html('');
+							var _li = ['<li>',
+									'<a href="/words/detail?id='+data.data._id+'" style="text-decoration: none;">',
+										'<div name="liContent">',
+											'<h2>'+data.data.createTime+'</h2>',
+											'<p>'+data.data.content+'</p>',
+										'</div>',
+										'<h3>来自: '+data.data.from+'</h3>',
+										'<h4 onclick="thumbUp(this,\''+data.data._id+'\')">',
+											'<i class="fa fa-thumbs-up" aria-hidden="true" onclick="javascript:return false;"></i>',
+											'<span onclick="javascript:return false;">（'+data.data.thumbUp+'）</span></h4>',
+										'<h4><i class="fa fa-commenting" aria-hidden="true"></i>（'+data.data.commentNum+'）</h4>',
+									'</a>',
+								'</li>'].join("");
+							console.log(_li);
+							$("#msgList").prepend(_li);
+							wordStyleInit(null,0);
+						}
+					}
+				})
+			})
+		})
+		function wordStyleInit(skip,index){
+			//如果传index参数，指定设置该条li
+			if(typeof index=="undefined"){
+				skip = skip<=-1?"":":gt("+skip+")";
+			}else{
+				skip = ":eq("+index+")";
+			}
+			console.log($("#msgList>li"+skip),index)
+			$("#msgList>li"+skip).each(function(index,item){
+				let colorArr = ["#FAC8C8","#cfc","#ffc","#ccf","#f098ff","#dadada","#ceff95","#84c8ff","#c3d8e2","#ff9b93"]
+				let rand = Math.floor( Math.random() * colorArr.length );
+				// 随机从数组中取出某值
+				let itemColor = colorArr[rand];
+				let rotateArr = ['-6','-5.5','-5','-5','-4','0','4','5','5.5','6'];
+				let itemRotate = rotateArr[rand];
+				let transformVal = "rotate("+itemRotate+"deg)";
+				$(item).children("a").css({"background":itemColor,"transform": transformVal});
+			})
+		}
+		async function getMoreMsgList(page,limit){
+			console.log("正在加载中...");
+			$(".list-load-tip").show();
+			page = page?page:1;
+			limit = limit?limit:10;
+			await $.ajax({
+				type: "post",
+				url: "words/getList",
+				dataType: "json",
+				data:{
+					page: page,
+					limit: limit
+				},
+				success: (data) => {
+					console.log(data,"============");
+					if(data.status==200){
+						count = data.count;
+						if(page*limit>=count){
+							$(".list-load-tip").text("已经全部加载完成了(ô‿ô)");
+						}else{
+							$(".list-load-tip").hide();
+						};
+						var _html = template('msgDetail',data.data);
+						$("#msgList").append(_html);
+						var skip = (page-1)*limit - 1;
+						wordStyleInit(skip);
+					}
+				}
+			})
+		}
+	</script>
+
+</body>
+
+</html>

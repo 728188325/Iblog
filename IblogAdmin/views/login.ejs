@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>系统后台--登录</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="shortcut icon" href="./favicon.ico" />
+	<link href="/stylesheets/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/common.css">
+	<link rel="stylesheet" href="/stylesheets/login.css">
+</head>
+<body>
+	<div class="container">
+		<div class="content">
+			<div class="navbar">
+				<div class="bar bar_login bar_active">系统管理员</div>
+				<!-- <div class="bar bar_register">注册</div> -->
+			</div>
+			<div class="select">
+				<div class="option opt_login opt_active">
+					<form action="/admin/users/login" accept-charset="UTF-8" method="POST">
+						<div class="input-wrap">
+							<span><i class="fa fa-user" aria-hidden="true"></i></span>
+							<input type="text" name="userName" placeholder="请输入账号">
+						</div>
+						<div class="input-wrap">
+							<span><i class="fa fa-unlock-alt" aria-hidden="true"></i></span>
+							<input type="password" name="password" placeholder="请输入密码" >
+						</div>
+						<a href="javascript:;" class="login-tip">忘记密码？</a>
+						<button class="login-btn">登录</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+	<script src="/javascripts/layui/layui.js"></script>
+	<script>
+		layui.use('layer', function () {
+			var errMsg = "<%= flash_fail %>";
+			if(errMsg){
+				layer.msg(errMsg,{
+					icon: 5,
+					time: 3000
+				})
+			}
+        });
+
+	</script>
+
+</body>
+</html>

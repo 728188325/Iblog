@@ -1,0 +1,59 @@
+.detail {
+    padding: 10px;
+    margin-bottom: 15px;
+    ;
+    background-color: #ffc;
+}
+.detail img{
+    max-width:100%;
+}
+
+.detail h2 {
+    font-family: 'Eater', cursive;
+    font-size: 14px;
+    padding-bottom: 10px;
+    padding-top: 5px;
+}
+
+.detail p {
+    max-width:100%;
+    font-size: 14px;
+    color: #656565;
+    word-break: break-all;
+    font-weight: 500;
+}
+
+.detail .bottom {
+    padding-top: 10px;
+}
+
+.detail h3 {
+    font-family: 'Eater', cursive;
+    color: rgba(33, 33, 33, 0.7);
+    width: 200px;
+}
+
+.detail h4 {
+    text-align: right;
+    z-index: 9999;
+    font-size: medium;
+    cursor: pointer;
+}
+
+.detail h4:hover {
+    color: red;
+}
+
+.main-location {
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+.main-location a {
+    color: #333;
+}
+
+.main-location a:hover {
+    text-decoration: underline;
+}

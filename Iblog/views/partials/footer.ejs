@@ -1,0 +1,44 @@
+<div class="foot">
+    <div class="foot-link">
+        <p>友情链接：</p>
+        <div class="foot-link-wrap">
+            <a href="javascript:;">百度</a>
+            <a href="javascript:;">淘宝</a>
+        </div>
+    </div>
+    <div class="foot-copyright">© 2020 maladashu.com 苏ICP备1123045号-1</div>
+</div>
+<div id="backToTop"><i class="fa fa-chevron-up" aria-hidden="true"></i></div>
+
+
+<script src="/javascripts/swiper-5.3.6/js/swiper.min.js"></script>
+<script src="/javascripts/pagination/jquery.pagination.js"></script>
+<script src="/javascripts/template-web.js"></script>
+<script>
+    $(function () {
+        //返回顶部
+        goTop();
+        window.onscroll = function () {
+            //设置栏目和返回顶部按钮
+            setTopAndBack();
+        };
+        $("#search-btn").on("click",function(){
+            alert("该狗逼程序猿搜索功能暂未开放！")
+        })
+    });
+    function setTopAndBack() {
+        var top = document.documentElement.scrollTop || document.body.scrollTop;
+        if (top <= 291) {
+            $("#backToTop").fadeOut();
+            $(".nav").css({ "position": "relative"});
+        } else {
+            $("#backToTop").fadeIn();
+            $(".nav").css({ "position": "fixed","top":"0" });
+        }
+    }
+    function goTop() {
+        $("#backToTop").on("click", function () {
+            $("html,body").animate({ scrollTop: 0 }, 500);
+        })
+    }
+</script>

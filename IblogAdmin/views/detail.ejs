@@ -1,0 +1,59 @@
+<%- include('./partials/header.ejs') %>
+<title>Iblog后台管理系统-主页</title>
+<style>
+    .main{
+        padding: 0 20px;
+    }
+    .title{
+        font-size: 26px;
+        color: #d46565;
+        text-align: center;
+    }
+    .tips{
+        margin: 10px 0 30px;
+        text-align: center;
+        font-size: 14px;
+        color: #cc7c7c;
+    }
+    .article-type{
+        margin: 0 20px;
+    }
+</style>
+</head>
+
+<body class="layui-layout-body">
+
+    <%- include('./partials/nav.ejs') %>
+    <%- include('./partials/left.ejs',{currentUrl:'/admin'}) %>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <button type="button" class="layui-btn" id="back-btn">返回</button>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>博文详情</legend>
+            </fieldset>
+            <div class="main">
+                <h1 class="title"><%= data.title %></h1>
+                <div class="tips">
+                    <span>作者：<%= data.author %></span>
+                    <span class="article-type">文章类型：<%= data.type===0?"唯美语录":"日志" %></span>
+                    <span>发布时间：<%= data.createTime %></span>
+                </div>
+                <div><%- data.content %></div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+    <script>
+        $("#back-btn").on("click",function(){
+            let page = getUrlParam("page")||1;
+            let limit = getUrlParam("limit")||10;
+            let url = '/admin?page='+page+'&limit='+limit;
+            window.location.href = url;
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+
+	<div class="header">
+
+	</div>
+	<nav class="nav">
+		<div class="nav-bg"></div>
+		<ul>
+			<li <%= currentUrl=='/'?'class=current':'' %>><a href="/">主页</a></li>
+			<li <%= currentUrl=='/weimei'?'class=current':'' %>><a href="/weimei">唯美语录</a></li>
+			<li <%= currentUrl=='/rizhi'?'class=current':'' %>><a href="/rizhi">日志</a></li>
+			<li <%= currentUrl=='/about'?'class=current':'' %>><a href="/about">个人档</a></li>
+			<li <%= currentUrl=='/word'?'class=current':'' %>><a href="/word">留言板</a></li>
+		</ul>
+	</nav>
