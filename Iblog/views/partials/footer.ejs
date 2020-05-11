@@ -16,16 +16,18 @@
 <script src="/javascripts/template-web.js"></script>
 <script>
     $(function () {
-        //返回顶部
         goTop();
         window.onscroll = function () {
-            //设置栏目和返回顶部按钮
             setTopAndBack();
         };
         $("#search-btn").on("click",function(){
             alert("该狗逼程序猿搜索功能暂未开放！")
         })
     });
+    /**
+     * @description: 设置栏目和返回顶部按钮
+     * @return: 
+     */
     function setTopAndBack() {
         var top = document.documentElement.scrollTop || document.body.scrollTop;
         if (top <= 291) {
@@ -36,6 +38,10 @@
             $(".nav").css({ "position": "fixed","top":"0" });
         }
     }
+    /**
+     * @description: 返回顶部
+     * @return: 
+     */
     function goTop() {
         $("#backToTop").on("click", function () {
             $("html,body").animate({ scrollTop: 0 }, 500);

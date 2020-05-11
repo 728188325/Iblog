@@ -5,6 +5,10 @@ const articleSchema = mongoose.Schema({
         type: String,
         require: true
     },  //标题
+    introduction: {    //简介（限制135字）
+        type: String,
+        maxlength: 135
+    },
     content: String,    //内容
     type: {
         type: Number,

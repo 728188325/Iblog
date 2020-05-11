@@ -38,7 +38,7 @@
 				{{/if}}
 				<div class="blog-content-fl">
 					<div class="blog-text">
-						{{@val.content}}
+						{{val.introduction}}
 					</div>
 					<a class="blog-show" href="/articles/detail?id={{val._id}}">阅读全文>></a>
 				</div>
@@ -54,7 +54,6 @@
 		function articleListInit(page,limit,type){
 			page = page?page:1;
 			limit = limit?limit:5;
-			console.log(type);
 			if(typeof type=="undefined"){
 				type = "";
 			}else{
@@ -69,7 +68,6 @@
 					withCredentials:true
 				},
 				success: (data) => {
-					console.log(data);
 					if(data.status==200){
 						if(data.count>0){
 							var _html = template('article-list',data.data);
@@ -103,7 +101,6 @@
 							withCredentials:true
 						},
 						success: (data) => {
-							console.log(data);
 							var _html = template('article-list',data.data);
 							$(".main-content").html(_html);
 						}

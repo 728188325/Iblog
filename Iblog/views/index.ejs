@@ -39,7 +39,7 @@
 				{{/if}}
 				<div class="blog-content-fl">
 					<div class="blog-text">
-						{{@val.content}}
+						{{val.introduction}}
 					</div>
 					<a class="blog-show" href="/articles/detail?id={{val._id}}">阅读全文>></a>
 				</div>
@@ -49,7 +49,6 @@
 	</script>
 	<script>
 		$(function () {
-			//初始化请求加载列表数据
 			articleListInit(1,5);
 	
 			var galleryThumbs = new Swiper('.gallery-thumbs', {
@@ -75,10 +74,16 @@
 				},
 			});
 		});
+		/**
+		 * @description: 初始化请求加载文章列表数据
+		 * @param page{Number} 当前页
+		 * @param limit{Number} 每页显示数据量
+		 * @param type{String} 文章类型
+		 * @return: 
+		 */
 		function articleListInit(page,limit,type){
 			page = page?page:1;
 			limit = limit?limit:5;
-			console.log(type);
 			if(typeof type=="undefined"){
 				type = "";
 			}else{
@@ -93,7 +98,6 @@
 					withCredentials:true
 				},
 				success: (data) => {
-					console.log(data);
 					if(data.status==200){
 						if(data.count>0){
 							var _html = template('article-list',data.data);
@@ -106,6 +110,14 @@
 				}
 			})
 		}
+		/**
+		 * @description: 设置文章列表分页
+		 * @param current{Number} 当前页
+		 * @param pageSize{Number} 每页显示数据量
+		 * @param total{Number} 总数据量
+		 * @param type{Number} 文章类型
+		 * @return: 
+		 */
 		function setArticleListPager(current, pageSize, total,type){
 			$('.box').pagination({
 				mode: 'fixed',
@@ -127,7 +139,6 @@
 							withCredentials:true
 						},
 						success: (data) => {
-							console.log(data);
 							var _html = template('article-list',data.data);
 							$(".main-content").html(_html);
 						}

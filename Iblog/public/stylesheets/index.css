@@ -237,6 +237,7 @@ a:active {
     margin: 8px 0 15px;
     line-height: 26px;
     font-size: 14px;
+    text-indent: 2em;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;

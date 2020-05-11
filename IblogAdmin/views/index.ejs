@@ -23,6 +23,11 @@
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
     <script>
+        /**
+         * @description: 跳转到文章详情
+         * @param id{Sting} 文章id 
+         * @return: 
+         */
         function skipDetail(id){
             let page =  $(".layui-laypage-em").next().html();
             //分页数目
@@ -60,7 +65,7 @@
                             }
                         }
                     },
-                    { field: 'content', title: '内容', minWidth: 200 },
+                    { field: 'introduction', title: '简介', minWidth: 200 },
                     { field: 'author', width: 120, title: '作者', sort: true },
                     { field: 'createTime', width: 165, title: '发布时间', sort: true },
                     { width: 110, title: '操作', toolbar: '#barDemo' }
@@ -69,7 +74,6 @@
             //监听行工具事件
             table.on('tool(test)', function (obj) {
                 var data = obj.data;
-                console.log(obj)
                 if (obj.event === 'del') {
                     layer.confirm('真的删除行么', function (index) {
                         $.ajax({

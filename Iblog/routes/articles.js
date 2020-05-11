@@ -62,7 +62,7 @@ router.get("/detail",async function(req,res,next){
 router.post("/getHotArticles",async function(req,res,next){
     try{
         let limit = parseInt(req.body.limit)||8;
-        let list = await articleModel.find({}).sort({readNum:1}).limit(limit).exec();
+        let list = await articleModel.find({}).sort({readNum:-1}).limit(limit).exec();
         res.json({
             status:200,
             data:list,

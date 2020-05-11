@@ -28,6 +28,10 @@
     $(function(){
         getHotArticles();
     })
+    /**
+     * @description: 获取推荐文章列表
+     * @return: 
+     */
     function getHotArticles(){
         $.ajax({
             type:"post",
@@ -41,7 +45,7 @@
                     $(".art-list").html("");
                     var _html = '';
                     for(let i=0;i<data.data.length;i++){
-                        _html += '<li><a href="/articles/detail?id='+data.data[i].id+'" target="_blank">'+data.data[i].title+'</a></li>';
+                        _html += '<li><a href="/articles/detail?id='+data.data[i]._id+'">'+data.data[i].title+'</a></li>';
                     }
                     $(".art-list").html(_html);
                     if(data.data.length==0){

@@ -56,6 +56,7 @@ router.post("/publish",async function (req, res, next) {
         }
         let articleObj = {
             title: req.body.title, //标题
+            introduction: req.body.introduction, //简介
             content: req.body.content, //内容
             type: req.body.type,
             //publishTime: Date.now(), //发布时间
@@ -65,7 +66,7 @@ router.post("/publish",async function (req, res, next) {
         let id = req.body.id;
         if(id){
             //修改
-            let aaa = await articleModel.updateOne({_id:id},articleObj);
+            await articleModel.updateOne({_id:id},articleObj);
             res.json({
                 status: 200,
                 msg: "文章修改成功！"
