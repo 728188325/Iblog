@@ -1,12 +1,4 @@
 <div class="main-right">
-    <div class="art">
-        <h2 class="art-txt"><i class="fa fa-bookmark" aria-hidden="true"></i><span>推荐文章</span> </h2>
-        <ul class="art-list">
-            <!-- <li>
-                <a href="#" target="_blank">奇妙的时光之旅</a>
-            </li> -->
-        </ul>
-    </div>
     <div class="main-search">
         <div class="main-search-head">搜索</div>
         <div class="main-search-content">
@@ -14,8 +6,17 @@
             <button id="search-btn">搜索</button>
         </div>
     </div>
+    <div class="art">
+        <h2 class="art-txt"><i class="fa fa-bookmark" aria-hidden="true"></i><span>推荐文章</span></h2>
+        <ul class="art-list">
+            <!-- <li>
+                <a href="#" target="_blank">奇妙的时光之旅</a>
+            </li> -->
+        </ul>
+    </div>
     <div class="main-sort">
-        <div class="main-sort-head">分类</div>
+        <!--  <div class="main-sort-head">分类</div> -->
+        <h2 class="art-txt"><i class="fa fa-send-o" aria-hidden="true"></i><span>分类</span></h2>
         <div class="main-sort-content">
             <a href="/weimei" class="main-sort-bar">唯美语录</a>
             <a href="/rizhi" class="main-sort-bar">日志</a>
@@ -23,32 +24,55 @@
             <a href="javascript:;" class="main-sort-bar">人物风景</a> -->
         </div>
     </div>
+    <div class="music">
+        <h2 class="art-txt"><i class="fa fa-music" aria-hidden="true"></i><span>我的音乐</span></h2>
+        <div class="viny">
+            <ul>
+                <dl>
+                    <dt class="art"><img src="/images/index/music_bg.jpg" alt="咱们结婚吧专辑"></dt>
+                    <dd class="icon-song"><span></span>遗憾</dd>
+                    <dd class="icon-artist"><span></span>李代沫</dd>
+                    <dd class="icon-album"><span></span>专辑：《我的歌声里》</dd>
+                    <dd class="music">
+                        <audio src="/music/李代沫 - 遗憾.mp3" controls="" autoplay=""></audio>
+                    </dd>
+                </dl>
+            </ul>
+        </div>
+    </div>
+    <div class="about">
+        <h2 class="art-txt"><i class="fa fa-comments" aria-hidden="true"></i><span>关注我</span></h2>
+        <div class="two-code">
+            <img src="/images/index/wechat_code.jpg" alt="扫一扫，关注我们哦">
+            <p class="sao-txt">微信添加好友，分享与合作◠◡◠</p>
+        </div>
+    </div>
 </div>
 <script>
-    $(function(){
+    $(function () {
         getHotArticles();
     })
     /**
      * @description: 获取推荐文章列表
      * @return: 
      */
-    function getHotArticles(){
+    function getHotArticles() {
         $.ajax({
-            type:"post",
-            url:"/articles/getHotArticles",
-            dataType:"json",
-            data:{
-                limit:8
+            type: "post",
+            url: "/articles/getHotArticles",
+            dataType: "json",
+            data: {
+                limit: 8
             },
-            success(data){
-                if(data.status==200){
+            success(data) {
+                if (data.status == 200) {
                     $(".art-list").html("");
                     var _html = '';
-                    for(let i=0;i<data.data.length;i++){
-                        _html += '<li><a href="/articles/detail?id='+data.data[i]._id+'">'+data.data[i].title+'</a></li>';
+                    for (let i = 0; i < data.data.length; i++) {
+                        _html += '<li><a href="/articles/detail?id=' + data.data[i]._id + '">' + data.data[i].title + '</a></li>';
                     }
                     $(".art-list").html(_html);
-                    if(data.data.length==0){
+                    if (data.data.length == 0) {
                         $(".art-list").html('<li><a href="javascript:;">暂无推荐文章</a></li>');
                     }
                 }

@@ -202,6 +202,16 @@
 		 * @return: 
 		 */
 		 function thumbUp(event,id){
+			let id = $(this).parent().attr("id");
+				var thumbUpWords = JSON.parse(window.localStorage.getItem("thumbUpWords"))||[];
+				if(thumbUpWords.includes(id)){
+					layer.msg("不能再点赞了，我怀疑你是个机器人~",{time:2000});
+					return;
+				}else{
+					thumbUpWords.push(id);
+					window.localStorage.setItem("thumbUpWords",JSON.stringify(thumbUpWords));
+				}
+			
 			event = event || window.event; 
 			if(event.preventDefault){
 				event.preventDefault();
