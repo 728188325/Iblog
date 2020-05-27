@@ -15,6 +15,7 @@ router.post('/uploadImg',function(req,res,next){
     form.parse(req, function(err, field, files) {
         if (err){
             res.json({
+                "status": 500,
                 "code": 500,
                 "msg": "图片上传失败"
             })
@@ -28,10 +29,12 @@ router.post('/uploadImg',function(req,res,next){
         ws.on('close', function() {
             console.log('文件上传成功');
             //根据前端组件要求返回
-            let fullPath = req.headers.origin + dstPath;
+            //let fullPath = req.headers.origin + dstPath;
+            let fullPath = "http://"+req.headers.host + dstPath;
             res.json({
+                "status": 200,
                 "code": 0, //0表示成功，其它失败
-                "msg": "", //提示信息 //一般上传失败后返回
+                "msg": "图片上传成功", //提示信息 //一般上传失败后返回
                 "data": {
                     "src": fullPath,
                     "title": file.originalFilename //可选
@@ -51,7 +54,6 @@ router.post('/publish',async function(req,res,next){
         doc = JSON.parse(JSON.stringify(doc));
         doc.createTime = moment(doc.publishTime).format("YYYY-MM-DD HH:mm:ss");
         doc.commentNum = 0;
-        console.log(doc);
         res.json({
             status: 200,
             data: doc,
@@ -137,7 +139,6 @@ router.get('/detail',async function(req,res,next){
         //console.log(list,"---------------");
         let doc = list[0];
         doc.createTime = moment(doc.publishTime).format("YYYY-MM-DD HH:mm:ss");
-        console.log(doc);
         res.render('wordDetail',{
             data:doc
         });

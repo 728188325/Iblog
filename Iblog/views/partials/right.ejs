@@ -47,10 +47,25 @@
             <p class="sao-txt">微信添加好友，分享与合作◠◡◠</p>
         </div>
     </div>
+    <div class="about">
+        <h2 class="art-txt"><i class="fa fa-download" aria-hidden="true"></i><span>APP体验</span></h2>
+        <div class="two-code">
+            <!-- <img src="/images/index/wechat_code.jpg" alt="扫一扫，体验APP哦"> -->
+            <div id="qrcode" alt="扫一扫，体验APP哦"></div>
+            <p class="sao-txt">安卓系统扫描二维码即可下载APP◠◡◠</p>
+        </div>
+    </div>
 </div>
 <script>
     $(function () {
         getHotArticles();
+        var qrcode = new QRCode("qrcode", {
+            text: encodeURI("http://192.168.0.105:3001/appUpload/个人博客.apk"),
+            width: 215,
+            height: 215,
+            colorDark : "#e56353",
+            colorLight : "#fff"
+        });
     })
     /**
      * @description: 获取推荐文章列表

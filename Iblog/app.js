@@ -8,6 +8,8 @@ var logger = require('morgan');
 import './config/db'
 import articlesRouter from './routes/articles'
 import wordsRouter from './routes/words'
+//app端的接口
+import appApiRouter from './routes/appApi'
 
 import moment from 'moment'
 
@@ -23,6 +25,16 @@ app.locals.moment = moment;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// 自定义跨域中间件
+var allowCors = function(req, res, next) {
+	res.header('Access-Control-Allow-Origin', req.headers.origin);
+	res.header('Access-Control-Allow-Methods', '*');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
+	res.header('Access-Control-Allow-Credentials','true');
+	next();
+};
+//app.use(allowCors);//使用跨域中间件
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -33,6 +45,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/articles',articlesRouter);
 app.use('/words',wordsRouter);
+app.use('/appApi',appApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

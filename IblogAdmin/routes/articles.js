@@ -173,7 +173,8 @@ router.post('/uploadArticleImg',async function(req,res,next){
             ws.on('close', function() {
                 console.log('文件上传成功');
                 //根据前端组件要求返回
-                let fullPath = req.headers.origin + dstPath;
+                //let fullPath = req.headers.origin + dstPath;
+                let fullPath = "http://"+req.headers.host + dstPath;
                 res.json({
                     "code": 0, //0表示成功，其它失败
                     "msg": "图片上传成功", //提示信息 //一般上传失败后返回
@@ -212,7 +213,8 @@ router.post('/uploadThumbnail',async function(req,res,next){
             ws.on('close', function() {
                 console.log('文件上传成功');
                 //根据前端组件要求返回
-                let fullPath = req.headers.origin + dstPath;
+                //let fullPath = req.headers.origin + dstPath;
+                let fullPath = "http://"+req.headers.host + dstPath;
                 res.json({
                     "code": 0, //0表示成功，其它失败
                     "msg": "缩略图上传成功", //提示信息 //一般上传失败后返回

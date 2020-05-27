@@ -342,10 +342,18 @@ a:active {
     padding-top: 10px
 }
 /* 关于我 */
-.two-code img {
+.two-code{
+    text-align: center;
+}
+.two-code>img {
     width: 80%;
     margin: 15px auto;
     display: block;
+}
+#qrcode{
+    width: 215px;
+    margin: 15px auto 10px;
+    display: inline-block;
 }
 .sao-txt {
     text-align: center;
