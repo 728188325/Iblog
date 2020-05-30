@@ -48,7 +48,10 @@
 	</div>
 	<%- include("./partials/footer.ejs") %>
 	<script src="/javascripts/layui/layui.js"></script>
-	<script src="/public/javascripts/pages/word-detail.js"></script>
+	<script>
+		let word_id = "<%= data._id %>";
+	</script>
+	<script src="/javascripts/pages/word-detail.js"></script>
 
 </body>
 

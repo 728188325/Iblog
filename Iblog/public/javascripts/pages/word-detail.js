@@ -37,7 +37,7 @@ layui.use(['layedit', 'upload'], function () {
             return layer.msg("请输入回复内容~",{time:2000});
         }
         let param = {
-            word_id: "<%= data._id %>",
+            word_id: word_id,
             content:content,
             from: "CHINA"
         }
