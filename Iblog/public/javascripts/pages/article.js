@@ -103,7 +103,6 @@ function setArticleListPager(current, pageSize, total,type){
  * @return: 
  */  
 function websiteVisitsInit(){
-    let websiteVisits = '<%= websiteInfo.visits %>'||0;
     var _html = "&nbsp;&nbsp;&nbsp;统计："+websiteVisits;
     $(".foot-copyright").append(_html);
 }
