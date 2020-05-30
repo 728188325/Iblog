@@ -1,4 +1,9 @@
 
+let flag = true,
+    page = 1,
+    limit = 5,
+    count = 6,
+    bottomDis = 100;
 //根据ip获取当前城市位置
 if(typeof returnCitySN=="undefined"){
     let returnCitySN = {
@@ -12,17 +17,14 @@ layui.use(['layedit', 'upload', 'laypage'], function () {
         upload = layui.upload,
         laypage = layui.laypage;
 
-    let flag = true,
-        page = 1,
-        limit = 5;
-        count = 6;
+    if($(window).height()>1000) bottomDis=200;
     getMoreMsgList(page,limit);
     $(document).scroll(async function(){
         if(page*limit>=count) return;
         let _scrollTop = $(document).scrollTop();
         let viewHeight = $(window).height();
         let documentHeight = $(document).height();
-        if(flag&&documentHeight-_scrollTop-viewHeight<100){
+        if(flag&&documentHeight-_scrollTop-viewHeight<bottomDis){
             flag = false;
             page++;
             await getMoreMsgList(page,limit);
@@ -134,6 +136,10 @@ async function getMoreMsgList(page,limit){
                 $("#msgList").append(_html);
                 var skip = (page-1)*limit - 1;
                 wordStyleInit(skip);
+                if($("body").height()<$(window).height()){
+                    page++;
+                    getMoreMsgList(page,limit);
+                }
             }
         }
     })
