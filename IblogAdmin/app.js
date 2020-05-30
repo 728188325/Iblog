@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+import compression from 'compression'
 import session from 'express-session'
 import flash from 'connect-flash'
 import moment from 'moment'
@@ -24,6 +25,9 @@ var app = express();
 
 //ejs渲染moment
 app.locals.moment = moment;
+
+//使用压缩功能
+app.use(compression());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
