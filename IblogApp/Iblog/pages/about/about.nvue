@@ -1,0 +1,177 @@
+<template>
+	<view class="container">
+		<view class="userInfo">
+			<image class="author" src="/static/about/author.jpg" mode="widthFix"></image>
+			<text class="sign">{{sign}}</text>
+		</view>
+		<view class="featureList">
+			<view class="feature-item" @click="navigateToWechat()">
+				<view class="left-title">
+					<text class="left-detail">微信分享与合作</text>
+				</view>
+				<image class="arrow" src="/static/about/arrow-right.png" mode="aspectFill"></image>
+			</view>
+			<view class="feature-item" @click="openURL">
+				<view class="left-title">
+					<text class="left-detail">QQ畅享</text>
+				</view>
+				<image class="arrow" src="/static/about/arrow-right.png" mode="aspectFill"></image>
+			</view>
+			<view class="feature-item" @click="contactCustomerService">
+				<view class="left-title">
+					<text class="left-detail">拨打电话</text>
+				</view>
+				<image class="arrow" src="/static/about/arrow-right.png" mode="aspectFill"></image>
+			</view>
+		</view>
+		<view class="featureList">
+			<view class="feature-item">
+				<view class="left-title">
+					<text class="left-field">邮箱：</text>
+					<text class="left-detail">{{email}}</text>
+				</view>
+			</view>
+			<view class="feature-item">
+				<view class="left-title">
+					<text class="left-field">地址：</text>
+					<text class="left-detail">{{address}}</text>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				sign: "我被充值啦！",
+				email: "13023973308@sina.cn",
+				address: "Amoy in China",
+				servicePhoneNumber: "13023973308",
+				// #ifdef APP-PLUS
+				appcustomer:'mqqwpa://im/chat?chat_type=wpa&uin=728188325&version=1',
+				// #endif
+				// #ifdef H5
+				h5customer:'tencent://message/?uin=728188325',
+				// #endif
+			}
+		},
+		onLoad() {
+			
+		},
+		methods: {
+			/* 拨打电话 */
+			contactCustomerService () {
+				var servicePhoneNumber = this.servicePhoneNumber;
+				uni.showModal({
+					title:'拨打电话热线',
+				    content: servicePhoneNumber,
+					cancelText: "确定",
+					confirmText: "取消",
+				    success: function (res) {
+				        if (!res.confirm) {
+				            uni.makePhoneCall({
+				                phoneNumber: servicePhoneNumber
+				            });
+				        } else if (res.cancel) {
+				           
+				        }
+				    }
+				});
+			},
+			openURL:function() {
+				// #ifdef APP-PLUS
+				plus.runtime.openURL(this.appcustomer)//这里默认使用外部浏览器打开而不是内部web-view组件打开
+				// #endif
+				// #ifdef H5
+				window.open(this.h5customer)
+				// #endif
+				// #ifdef MP
+				let url = "tencent://message/?uin=728188325";
+				if (this.inWhiteList) { //如果在小程序的网址白名单中，会走内置webview打开，否则会复制网址提示在外部浏览器打开
+					uni.navigateTo({
+						url: '/pages/component/web-view/web-view?url=' + url
+					});
+				} else {
+					uni.setClipboardData({
+						data: url
+					});
+					uni.showModal({
+						content: '本网址无法直接在小程序内打开。已自动复制网址，请在手机浏览器里粘贴该网址',
+						showCancel: false
+					});
+				}
+				// #endif
+			},
+			navigateToWechat(){
+				uni.navigateTo({
+					url: '/pages/about/about-wechat',
+					animationType: 'pop-in',
+					animationDuration: 200
+				});
+			}
+		}
+	}
+</script>
+
+<style scoped>
+	.container{
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #f8f8f8;
+	}
+	.userInfo{
+		height: 500rpx;
+		padding-top: 50rpx;
+		background-color: #009688;
+		justify-content: center;
+		align-items: center;
+	}
+	.author{
+		width: 300rpx;
+		height: 300rpx;
+		margin-bottom: 20rpx;
+		border-radius: 300rpx;
+	}
+	.sign{
+		font-size: 30rpx;
+		color: #ffcc34;
+	}
+	.featureList{
+		margin-top: 20rpx;
+		background-color: #fff;
+	}
+	.feature-item{
+		position: relative;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: #e4e4e4;
+	}
+	.feature-item:last-child{
+		border-width: 0;
+	}
+	.left-title{
+		padding: 0 30rpx;
+		flex-direction: row;
+	}
+	.left-field{
+		width: 100rpx;
+	}
+	.left-detail,
+	.left-field{
+		line-height: 88rpx;
+		font-size: 30rpx;
+		color: #555;
+	}
+	.arrow{
+		position: absolute;
+		top: 21rpx;
+		right: 20rpx;
+		width: 46rpx;
+		height: 46rpx;
+	}
+</style>

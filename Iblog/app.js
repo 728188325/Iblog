@@ -4,8 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+import compression from 'compression'
+
 //数据库连接
 import './config/db'
+//创建站点信息
+import './config/createWebsiteInfo'
+
 import articlesRouter from './routes/articles'
 import wordsRouter from './routes/words'
 //app端的接口
@@ -21,6 +26,9 @@ var app = express();
 //ejs渲染moment
 app.locals.moment = moment;
 
+//使用压缩功能
+app.use(compression());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -34,6 +42,7 @@ var allowCors = function(req, res, next) {
 	next();
 };
 //app.use(allowCors);//使用跨域中间件
+
 
 app.use(logger('dev'));
 app.use(express.json());

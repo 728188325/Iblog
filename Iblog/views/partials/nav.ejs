@@ -1,13 +1,19 @@
-
+	<div class="loading-mask">
+		<img src="/images/common/lazy_load.gif" alt="100块钱服务器正在努力加载中...">
+		<p>100块钱服务器正在努力加载中...</p>
+	</div>
 	<div class="header">
-
+		<div class="switch-theme">
+			<i></i>
+			<span>切换主题</span>
+		</div>
 	</div>
 	<nav class="nav">
 		<div class="nav-bg"></div>
 		<ul>
 			<li <%= currentUrl=='/'?'class=current':'' %>><a href="/">主页</a></li>
-			<li <%= currentUrl=='/weimei'?'class=current':'' %>><a href="/weimei">唯美语录</a></li>
-			<li <%= currentUrl=='/rizhi'?'class=current':'' %>><a href="/rizhi">日志</a></li>
+			<li <%= currentUrl=='/weimei'?'class=current':'' %>><a href="/weimei">经典文章</a></li>
+			<li <%= currentUrl=='/rizhi'?'class=current':'' %>><a href="/rizhi">生活随笔</a></li>
 			<li <%= currentUrl=='/about'?'class=current':'' %>><a href="/about">个人档</a></li>
 			<li <%= currentUrl=='/word'?'class=current':'' %>><a href="/word">留言板</a></li>
 		</ul>

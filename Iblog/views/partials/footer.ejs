@@ -1,11 +1,4 @@
-<!--
- * @Author: your name
- * @Date: 2020-04-19 11:44:17
- * @LastEditTime: 2020-05-26 22:26:53
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: \vueNuxtAppe:\Express\Iblog\Iblog\views\partials\footer.ejs
---> 
+
 <div class="foot">
     <div class="foot-link">
         <p>友情链接：</p>
@@ -23,37 +16,4 @@
 <script src="/javascripts/pagination/jquery.pagination.js"></script>
 <script src="/javascripts/template-web.js"></script>
 <script src="/javascripts/qrcode.min.js"></script>
-<script>
-    $(function () {
-        goTop();
-        window.onscroll = function () {
-            setTopAndBack();
-        };
-        $("#search-btn").on("click",function(){
-            alert("该狗逼程序猿搜索功能暂未开放！")
-        })
-    });
-    /**
-     * @description: 设置栏目和返回顶部按钮
-     * @return: 
-     */
-    function setTopAndBack() {
-        var top = document.documentElement.scrollTop || document.body.scrollTop;
-        if (top <= 291) {
-            $("#backToTop").fadeOut();
-            $(".nav").css({ "position": "relative"});
-        } else {
-            $("#backToTop").fadeIn();
-            $(".nav").css({ "position": "fixed","top":"0" });
-        }
-    }
-    /**
-     * @description: 返回顶部
-     * @return: 
-     */
-    function goTop() {
-        $("#backToTop").on("click", function () {
-            $("html,body").animate({ scrollTop: 0 }, 500);
-        })
-    }
-</script>
+<script src="/javascripts/pages/main.js"></script>

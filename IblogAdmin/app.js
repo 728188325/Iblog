@@ -51,11 +51,17 @@ app.use(session({
 }))
 app.use(flash());
 
-
+// 访问网站/根路径判断是否登录，登录直接跳转到管理平台
+app.get("/",function(req,res,next){
+  if(!req.session.userInfo){
+    return res.redirect('/admin/login');
+  }else{
+    return res.redirect('/admin');
+  }
+})
 // 监听get请求，判断是否需要验证登录
 app.get("*",function(req,res,next){
   //配置跨域
-  //res.header("Access-Control-Allow-Origin", "*");
   if(req.path!="/admin/login"){
     // console.log("需要验证是否登录");
     if(!req.session.userInfo){

@@ -18,8 +18,8 @@
         <!--  <div class="main-sort-head">分类</div> -->
         <h2 class="art-txt"><i class="fa fa-send-o" aria-hidden="true"></i><span>分类</span></h2>
         <div class="main-sort-content">
-            <a href="/weimei" class="main-sort-bar">唯美语录</a>
-            <a href="/rizhi" class="main-sort-bar">日志</a>
+            <a href="/weimei" class="main-sort-bar">经典文章</a>
+            <a href="/rizhi" class="main-sort-bar">生活随笔</a>
             <!-- <a href="javascript:;" class="main-sort-bar">实时新闻</a>
             <a href="javascript:;" class="main-sort-bar">人物风景</a> -->
         </div>
@@ -33,8 +33,8 @@
                     <dd class="icon-song"><span></span>遗憾</dd>
                     <dd class="icon-artist"><span></span>李代沫</dd>
                     <dd class="icon-album"><span></span>专辑：《我的歌声里》</dd>
-                    <dd class="music">
-                        <audio src="/music/李代沫 - 遗憾.mp3" controls="" autoplay="" loop="loop"></audio>
+                    <dd class="music music-box">
+                        <!-- <audio src="/music/李代沫 - 遗憾.mp3" controls="" autoplay="" loop="loop"></audio> -->
                     </dd>
                 </dl>
             </ul>
@@ -59,8 +59,9 @@
 <script>
     $(function () {
         getHotArticles();
-        var qrcode = new QRCode("qrcode", {
-            text: encodeURI("http://192.168.0.105:3001/appUpload/个人博客.apk"),
+        let host = window.location.host;
+        let qrcode = new QRCode("qrcode", {
+            text: encodeURI(host+"/appUpload/个人博客.apk"),
             width: 215,
             height: 215,
             colorDark : "#e56353",

@@ -21,7 +21,7 @@
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
                 <legend>博文发布</legend>
             </fieldset>
-            <form class="layui-form" action="" lay-filter="example">
+            <form class="layui-form" action="#" lay-filter="example">
                 <input type="hidden" name="id" value="<%= article.id %>">
                 <input type="hidden" name="author" value="<%= userInfo.nick %>">
                 <!-- <input type="hidden" name="userId" value="<%= userInfo._id %>"> -->
@@ -39,8 +39,8 @@
                         <!-- <div class="layui-input-inline"> -->
                         <select name="type" lay-filter="aihao">
                             <option value=""></option>
-                            <option value="0" selected="">唯美语录</option>
-                            <option value="1">日志</option>
+                            <option value="0" selected="">经典文章</option>
+                            <option value="1">生活随笔</option>
                         </select>
                     </div>
                 </div>

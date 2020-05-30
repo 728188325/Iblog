@@ -18,12 +18,12 @@
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.7",
     "morgan": "~1.9.1",
-    "multiparty": "^4.2.1"
-  },
-  "devDependencies": {
+    "multiparty": "^4.2.1",
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.2"
   }
 }

@@ -7,13 +7,138 @@
 body {
     min-width: 1080px;
     -webkit-font-smoothing: antialiased;
-    background: #111b25 url(/images/index/top.jpg) center top no-repeat;
     color: #333;
+}
+.loading-mask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.loading-mask>img{
+    width: 250px;
+}
+.loading-mask>p{
+    color: #b7b7b7;
+    font-size: 14px;
+    font-weight: 400;
+}
+/****** theme-1 ******/
+body.theme-1{
+    background: #111b25 url(/images/index/top.jpg) center top no-repeat;
+}
+body.theme-1 .nav-bg{
+    background: #444444;
+}
+/****** theme-2 ******/
+body.theme-2{
+    background: #e7eec2 url(/images/index/theme_02.jpg) center top no-repeat;
+}
+body.theme-2 .nav-bg{
+    background: #d8d681;
+}
+body.theme-2 .foot {
+    background: #d4d285;
+}
+body.theme-2 .foot-copyright {
+    background: #b9b533;
+    color: #ffffff;
+}
+body.theme-2 .foot-link p,
+body.theme-2 .foot-link-wrap a{
+    color: #ffffff;
+}
+body.theme-2 #backToTop{
+    background: rgb(210, 223, 74);
+}
+/****** theme-3 ******/
+body.theme-3{
+    background: #d6c5a9 url(/images/index/theme_03.jpg) center top no-repeat;
+}
+body.theme-3 .nav-bg{
+    background: #b6b393;
+}
+body.theme-3 .foot {
+    background: #c1bea6;
+}
+body.theme-3 .foot-copyright {
+    background: #d6c5a9;
+    color: #ffffff;
+}
+body.theme-3 .foot-link p,
+body.theme-3 .foot-link-wrap a{
+    color: #ffffff;
+}
+body.theme-3 #backToTop{
+    background: rgb(203, 211, 115);
+}
+/****** theme-4 ******/
+body.theme-4{
+    background: #efe5b0 url(/images/index/theme_04.jpg) center top no-repeat;
+}
+body.theme-4 .nav-bg{
+    background: #b1d1c5;
+}
+body.theme-4 .foot {
+    background: #d1c792;
+}
+body.theme-4 .foot-copyright {
+    background: #b2a76e;
+    color: #ffffff;
+}
+body.theme-4 .foot-link p,
+body.theme-4 .foot-link-wrap a{
+    color: #ffffff;
+}
+body.theme-4 #backToTop{
+    background: rgb(168, 216, 182);
 }
 
 .header {
+    position: relative;
     width: 100%;
     height: 291px;
+}
+.switch-theme{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 30px;
+    right: 5%;
+    cursor: pointer;
+}
+.switch-theme i{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: url(/images/common/theme.png) center no-repeat;
+    background-size: cover;
+    animation:arrowLeft 2s linear infinite;
+    -webkit-animation:arrowLeft 2s linear infinite;
+}
+.switch-theme>span{
+    color: #4383b6;
+    font-size: 12px;
+    font-weight: 400;
+}
+@keyframes arrowLeft {
+    0%{transform: rotateY(0deg);}
+    50%{transform: rotateY(180deg);}
+    100%{transform: rotateY(360deg);}
+}
+@-webkit-keyframes arrowLeft {
+    0%{transform: rotateY(0deg);}
+    50%{transform: rotateY(180deg);}
+    100%{transform: rotateY(360deg);}
 }
 
 /******************* nav *******************/
@@ -22,7 +147,7 @@ body {
     width: 100%;
     height: 56px;
     margin-bottom: 20px;
-    background: #111b25;
+    background: transparent;
     z-index: 9;
 }
 
@@ -268,6 +393,10 @@ a:active {
 .about{
     margin-top: 20px;
 }
+.no-data{
+    padding: 20px;
+    text-align: center;
+}
 
 /*music*/
 .viny {
@@ -415,6 +544,7 @@ a:active {
     text-align: center;
     line-height: 60px;
     display: none;
+    cursor: pointer;
 }
 
 .foot {

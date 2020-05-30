@@ -13,7 +13,7 @@ const articleSchema = mongoose.Schema({
     type: {
         type: Number,
         default: 0 
-    },  // 文章类型： 0：唯美语录； 1：日志
+    },  // 文章类型： 0：经典文章； 1：生活随笔
     publishTime: {
         type: Date,
         default: Date.now

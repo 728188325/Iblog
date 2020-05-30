@@ -1,0 +1,49 @@
+<template>
+	<view class="container">
+		<view class="wechat-box">
+			<image class="wechat-code" src="/static/about/wechat.jpg" mode="aspectFill"></image>
+			<text class="tip">扫描添加微信好友，分享与合作哟(＾Ｕ＾)ノ~ＹＯ</text>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		
+	}
+</script>
+
+<style scoped>
+.container{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #f8f8f8;
+}
+.wechat-box{
+	position: fixed;
+	top: 200rpx;
+	left: 40rpx;
+	width: 670rpx;
+	height: 720rpx;
+	padding: 20rpx;
+	border-radius: 20rpx;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #ccc;
+	background-color: #fff;
+	flex-direction: column;
+}
+.wechat-code{
+	width: 630rpx;
+	height: 630rpx;
+	margin-bottom: 15rpx;
+}
+.tip{
+	text-align: center;
+	font-size: 24rpx;
+	color: #888888;
+}
+</style>

@@ -267,17 +267,27 @@ router.post('/word/uploadImg',function(req,res,next){
         rs.pipe(ws);
         ws.on('close', function() {
             console.log('文件上传成功');
-            //根据前端组件要求返回
-            //let fullPath = req.headers.origin + dstPath;
-            let fullPath = "http://"+req.headers.host + dstPath;
-            res.json({
-                "status": 200,
-                "code": 0, //0表示成功，其它失败
-                "msg": "图片上传成功", //提示信息 //一般上传失败后返回
-                "data": {
-                    "src": fullPath,
-                    "title": file.originalFilename //可选
+            let nameArr = dstPath.split(".");
+            let endFileName = nameArr[nameArr.length-1];
+            let newfilename = '/wordUploads/iblogmessage' + Date.now() + parseInt(Math.random() * 8999 +10000)+"."+endFileName;
+            let newfilepath = './public'+newfilename;
+            var oldfliepath = './public'+dstPath;
+            fs.rename(oldfliepath,newfilepath, function(err){
+                if(err){
+                    throw err;
                 }
+                //根据前端组件要求返回
+                //let fullPath = req.headers.origin + dstPath;
+                let fullPath = "http://"+req.headers.host + newfilename;
+                res.json({
+                    "status": 200,
+                    "code": 0, //0表示成功，其它失败
+                    "msg": "图片上传成功", //提示信息 //一般上传失败后返回
+                    "data": {
+                        "src": fullPath,
+                        "title": file.originalFilename //可选
+                    }
+                })
             })
         })
     })

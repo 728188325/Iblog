@@ -1,0 +1,80 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/article/article",
+			"style" : {
+				"navigationStyle":"custom",
+				"app-plus" : {
+					"titleNView" : false
+				}
+			}
+		},{
+			"path": "pages/message/message",
+			"style" : {
+				"navigationStyle":"custom",
+				// #ifndef APP-PLUS
+				"enablePullDownRefresh":true,//开启下拉刷新
+				// #endif
+				"backgroundTextStyle": "dark",  //下拉 loading 的样式，仅支持 dark/light
+				"app-plus" : {
+					"titleNView" : false
+				}
+			}
+		},{
+			"path": "pages/about/about",
+			"style" : {
+				"navigationStyle":"custom",
+				"app-plus" : {
+					"titleNView" : false
+				}
+			}
+		},{
+			"path": "pages/article/article-detail",
+			"style" : {
+			    "navigationBarTitleText" : "文章详情"
+			}
+		},{
+			"path": "pages/message/message-detail",
+			"style" : {
+			    "navigationBarTitleText" : "留言详情"
+			}
+		},{
+			"path": "pages/message/message-add",
+			"style" : {
+			    "navigationBarTitleText" : "添加留言"
+			}
+		},{
+			"path": "pages/about/about-wechat",
+			"style" : {
+			    "navigationBarTitleText" : "微信名片"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+	    "color": "#515151",
+	    "selectedColor": "#e98f36",
+	    "borderStyle": "black",
+	    "backgroundColor": "#ffffff",
+	    "list": [{
+	        "pagePath": "pages/article/article",
+	        "iconPath": "static/tabbar/article.png",
+	        "selectedIconPath": "static/tabbar/article_active.png",
+	        "text": "主页"
+	    }, {
+	        "pagePath": "pages/message/message",
+	        "iconPath": "static/tabbar/message.png",
+	        "selectedIconPath": "static/tabbar/message_active.png",
+	        "text": "留言板"
+	    }, {
+	        "pagePath": "pages/about/about",
+	        "iconPath": "static/tabbar/about.png",
+	        "selectedIconPath": "static/tabbar/about_active.png",
+	        "text": "关于"
+	    }]
+	}
+}

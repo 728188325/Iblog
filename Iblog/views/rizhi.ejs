@@ -5,7 +5,7 @@
 	<%- include("./partials/nav.ejs",{currentUrl:"/rizhi"}) %>
 	<div class="main">
 		<div class="main-left">
-			<div class="main-left-title"><i class="fa fa-feed"></i>日志</div>
+			<div class="main-left-title"><i class="fa fa-feed"></i>生活随笔</div>
 			<div class="main-content">
 
 			</div>
@@ -46,69 +46,7 @@
 		</div>
 		{{/each}}
 	</script>
-	<script>
-		$(function () {
-			//初始化请求加载列表数据
-			articleListInit(1,5,1);
-		});
-		function articleListInit(page,limit,type){
-			page = page?page:1;
-			limit = limit?limit:5;
-			if(typeof type=="undefined"){
-				type = "";
-			}else{
-				type = "&type="+type;
-			}
-			let url = "/articles?page="+page+"&limit="+limit+type;
-			$.ajax({
-				type: "GET",
-				url: url,
-				dataType:"json",
-				xhrFields:{
-					withCredentials:true
-				},
-				success: (data) => {
-					if(data.status==200){
-						if(data.count>0){
-							var _html = template('article-list',data.data);
-							$(".main-content").html(_html);
-							setArticleListPager(page, limit, data.count,type);
-						}else{
-							$(".main-content").html("暂无相关数据");
-						}
-					}
-				}
-			})
-		}
-		function setArticleListPager(current, pageSize, total,type){
-			$('.box').pagination({
-				mode: 'fixed',
-				current: current,
-				totalData: total,
-				showData: pageSize,
-				coping: true,
-				homePage: '首页',
-				endPage: '末页',
-				callback: function (api) {
-					let page = api.getCurrent();
-					limit = pageSize;
-					let url = "/articles?page="+page+"&limit="+limit+type;
-					$.ajax({
-						type: "GET",
-						url: url,
-						dataType:"json",
-						xhrFields:{
-							withCredentials:true
-						},
-						success: (data) => {
-							var _html = template('article-list',data.data);
-							$(".main-content").html(_html);
-						}
-					})
-				}
-			});
-		}
-	</script>
+	<script src="/javascripts/pages/rizhi.js"></script>
 	
 
 </body>

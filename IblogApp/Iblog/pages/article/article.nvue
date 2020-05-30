@@ -1,0 +1,392 @@
+<template>
+	<!-- 主页 -->
+	<view class="container">
+		<view class="entry-btn" v-if="isShowEntryBtn" @click="jump()"><text class="entry-text">跳过</text></view>
+		<!-- 打开应用全屏banner -->
+		<view class="banner" v-if="isShowBanner">
+			<swiper class="banner-swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+				<swiper-item class="swiper-item" v-for="item in bannerList" :key="item.id">
+					<image class="swiper-image" :src="item.src" mode="aspectFill"></image>
+				</swiper-item>
+			</swiper>
+		</view>
+		<view class="main">
+			<!-- 轮播图 -->
+			<view class="slider">
+				<swiper class="slider-swiper"
+				 :indicator-dots="sliderIndicatorDots" :circular="sliderCircular"
+				 :autoplay="sliderAutoplay"
+				 :interval="sliderInterval" :duration="sliderDuration">
+					<swiper-item class="slider-item" v-for="item in sliderList" :key="item.id">
+						<image class="slider-image" :src="item.src" mode="aspectFill"></image>
+					</swiper-item>
+				</swiper>
+			</view>
+			<!-- 分类栏 -->
+			<view class="nav">
+				<view class="nav-li" :class="{'active':currentNav===0}" @click="navHandleClick(0)">
+					<text class="nav-text">经典文章</text>
+				</view>
+				<view class="nav-li" :class="{'active':currentNav===1}" @click="navHandleClick(1)">
+					<text class="nav-text">生活随笔</text>
+				</view>
+			</view>
+			<!-- 文章列表 -->
+			<!-- #ifndef APP-PLUS -->
+			<scroll-view class="article" :scroll-top="scrollTop" scroll-y="true" @scrolltolower="lower"
+			@scroll="scroll"
+			 :style="{height:scrollHeight}">
+				<view class="list" v-for="item in articles" :key="item._id"
+				 @click="navigateToDetail(item._id)">
+					<view class="list-content">
+						<view class="panel">
+							<image class="list-img" v-if="item.imgUrl" :src="item.imgUrl" mode="aspectFill"></image>
+							<view class="list-right">
+								<text class="title">{{item.title}}</text>
+								<text class="introduction">{{item.introduction}}</text>
+								<text class="author">{{item.author}}</text>
+							</view>
+						</view>
+						<view class="tip">
+							<text class="read">{{item.readNum}}人已阅读</text>
+							<text class="thumbUp">{{item.thumbUp}}人点赞</text>
+							<text class="date">{{item.createTime}}</text>
+						</view>
+					</view>
+				</view>
+				<view class="list-loading" v-if="isShowLoadingText">
+					<text class="list-loading-text">{{listLoadingText}}</text>
+				</view>
+			</scroll-view>
+			<!-- #endif -->
+			
+			<!-- #ifdef APP-PLUS -->
+			<list class="scroll" :style="{height:scrollHeight}"
+			 loadmoreoffset="50" @loadmore="lower" scrollable="true">
+				<cell class="list" v-for="item in articles" :key="item._id"
+				 @click="navigateToDetail(item._id)">
+					<view class="list-content">
+						<view class="panel">
+							<image class="list-img" v-if="item.imgUrl" :src="item.imgUrl" mode="aspectFill"></image>
+							<view class="list-right">
+								<text class="title">{{item.title}}</text>
+								<text class="introduction">{{item.introduction}}</text>
+								<text class="author">{{item.author}}</text>
+							</view>
+						</view>
+						<view class="tip">
+							<text class="read">{{item.readNum}}人已阅读</text>
+							<text class="thumbUp">{{item.thumbUp}}人点赞</text>
+							<text class="date">{{item.createTime}}</text>
+						</view>
+					</view>
+				</cell>
+				<cell class="list-loading" v-if="isShowLoadingText">
+					<text class="list-loading-text">{{listLoadingText}}</text>
+				</cell>
+			</list>
+			<!-- #endif -->
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				isShowBanner: true,
+				isShowEntryBtn: true,
+				scrollTop: 0,
+				old: {
+					scrollTop: 0
+				},
+				scrollHeight: "500rpx",
+				indicatorDots: true,
+				autoplay: true,
+				interval: 1500,
+				duration: 500,
+				sliderIndicatorDots: true,
+				sliderAutoplay: true,
+				sliderCircular: true,
+				sliderInterval: 2000,
+				sliderDuration: 500,
+				bannerList: [{
+					id: "0",
+					src: "../../static/article/banner_01.jpg"
+				},{
+					id: "1",
+					src: "../../static/article/banner_02.jpg"
+				},{
+					id: "2",
+					src: "../../static/article/banner_03.jpg"
+				}],
+				sliderList: [{
+					id: "0",
+					src: "../../static/article/swiper_01.jpg"
+				},{
+					id: "1",
+					src: "../../static/article/swiper_02.jpg"
+				},{
+					id: "2",
+					src: "../../static/article/swiper_03.jpg"
+				},{
+					id: "3",
+					src: "../../static/article/swiper_04.jpg"
+				}],
+				currentNav: 0,
+				isLoading: false,//是否正在加载中
+				isloadedAll: false,//是否已经全部加载完毕了
+				currentPage: 1,
+				limit: 5,
+				isShowLoadingText: true,
+				listLoadingText: "正在加载中...",
+				articles: []
+			}
+		},
+		beforeMount(){
+			//动态计算文章列表高度
+			uni.getSystemInfo({
+			    success: (res)=> {
+					//屏幕高度-slide轮播图高度-nav高度-底部选项卡高度
+					let calcHeight;
+					// #ifdef H5
+					calcHeight = res.windowHeight - uni.upx2px(500) - uni.upx2px(100);
+					// #endif
+					// #ifndef H5
+					calcHeight = res.screenHeight - uni.upx2px(500) - uni.upx2px(100)-50;
+					// #endif
+					this.scrollHeight = calcHeight + "px";
+			    }
+			});
+		},
+		onLoad() {
+			uni.hideTabBar();
+			setTimeout(() => {
+				this.jump();
+			},4500);
+			this.getArticles(this.currentPage,this.limit,this.currentNav);
+		},
+		onShow() {
+			
+		},
+		methods: {
+			getArticles(page,limit,type){
+				page = page?page:1;
+				limit = limit?limit:5;
+				if(type==undefined){
+					type = "";
+				}
+				uni.request({
+					url: uni.getStorageSync("baseUrl")+"/appApi/article",
+					method: "POST",
+					dataType: "json",
+					contentType: "application/json",
+					data:{
+						page: page,
+						limit: limit,
+						type: type
+					},
+					success: (data) => {
+						this.isLoading = false;
+						this.articles = [...this.articles,...data.data.data];
+						if(this.currentPage*this.limit>=data.data.count){
+							this.isShowLoadingText = true;
+							this.listLoadingText = "已全部加载完成~";
+							this.isloadedAll = true;
+						}else{
+							this.isShowLoadingText = false;
+						}
+					},
+					fail(e){
+						console.log(e);
+					}
+				})
+			},
+			getMoreArticles(type){
+				if(this.isloadedAll) return;
+				if(this.isLoading) return;
+				this.isLoading = true;
+				if(type==undefined){
+					type = "";
+				}
+				this.isShowLoadingText = true;
+				this.listLoadingText = "正在加载中...";
+				this.currentPage++;
+				this.getArticles(this.currentPage,this.limit,type);
+			},
+			navHandleClick(type){
+				if(this.currentNav==type) return;
+				this.currentNav = type;
+				this.articles = [];
+				this.isloadedAll = false;//是否已经全部加载完毕了
+				this.isShowLoadingText = true;
+				this.listLoadingText = "正在加载中...";
+				this.currentPage = 1;
+				this.getArticles(this.currentPage,this.limit,type);
+			},
+			jump(){
+				let that = this;
+				uni.showTabBar();
+				this.isShowBanner = false;
+				this.isShowEntryBtn = false;
+			},
+			lower: function(e) {
+				this.getMoreArticles(this.currentNav);
+			},
+			scroll: function(e) {
+				this.old.scrollTop = e.detail.scrollTop
+			},
+			goTop: function(e) {
+				this.scrollTop = this.old.scrollTop
+				this.$nextTick(function() {
+					this.scrollTop = 0
+				});
+				uni.showToast({
+					icon:"none",
+					title:"纵向滚动 scrollTop 值已被修改为 0"
+				})
+			},
+			navigateToDetail(id){
+				uni.navigateTo({
+					url: '/pages/article/article-detail?id='+id,
+					animationType: 'pop-in',
+					animationDuration: 200
+				});
+			}
+		}
+	}
+</script>
+
+<style scoped>
+	.entry-btn{
+		position: fixed;
+		bottom: 120rpx;
+		right: 100rpx;
+		padding: 14rpx 28rpx;
+		background-color: rgba(0,0,0,.3);
+		border-radius: 16rpx;
+		z-index: 100;
+	}
+	.banner{
+		flex: 1;
+		flex-direction: column;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #fff;
+		z-index: 99;
+	}
+	.entry-text{
+		font-size: 30rpx;
+		color: #fff;
+	}
+	.banner-swiper{
+		flex: 1;
+		flex-direction: column;
+	}
+	.swiper-item{
+		flex: 1;
+		flex-direction: column;
+	}
+	.swiper-image{
+		flex: 1;
+		flex-direction: column;
+		width: 750rpx;
+	}
+	.slider-swiper{
+		height: 500rpx;
+	}
+	.slider-image{
+		flex: 1;
+		flex-direction: column;
+		width: 750rpx;
+	}
+	.nav{
+		flex-direction: row;
+		height: 100rpx;
+		background-color: #c5d056;
+	}
+	.nav-li{
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		width: 375rpx;
+		border-bottom-style: solid;
+		border-bottom-width: 5px;
+		border-bottom-color: #eaeaea;
+	}
+	.nav-text{
+		color: #fff;
+		font-size: 30rpx;
+	}
+	.active{
+		border-bottom-style: solid;
+		border-bottom-width: 10rpx;
+		border-bottom-color: #ff5722;
+	}
+	.list{
+		padding: 0 30rpx 0;
+	}
+	.list-content{
+		padding: 30rpx 0;
+		border-bottom-style: solid;
+		border-bottom-width: 1rpx;
+		border-bottom-color: #ccc;
+	}
+	.panel{
+		flex-direction: row;
+	}
+	.list-img{
+		width: 220rpx;
+		height: 150rpx;
+		margin-right: 20rpx;
+	}
+	.list-right{
+		flex: 1;
+	}
+	.title{
+		height: 30rpx;
+		margin-bottom: 14rpx;
+		line-height: 30rpx;
+		font-size: 30rpx;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.introduction{
+		height: 70rpx;
+		margin-bottom: 10rpx;
+		line-height: 35rpx;
+		font-size: 28rpx;
+		color: #838383;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.author{
+		text-align: right;
+		line-height: 26rpx;
+		font-size: 26rpx;
+		color: #999;
+	}
+	.tip{
+		margin-top: 20rpx;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	.read,
+	.date,
+	.thumbUp{
+		line-height: 30rpx;
+		font-size: 26rpx;
+		color: #999;
+	}
+	.list-loading{
+		padding: 30rpx;
+	}
+	.list-loading-text{
+		text-align: center;
+		font-size: 28rpx;
+		color: #555;
+	}
+</style>
