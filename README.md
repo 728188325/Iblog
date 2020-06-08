@@ -10,6 +10,12 @@ pc端：127.0.0.1:3001
 还可以在首页扫描下载app
 app代码也支持微信小程序（经测试但未上线）
 
+利用webpack将项目页面js打包压缩
+原js目录：/public/javascripts/origin-pages
+打包后目录：/public/javascripts/pages
+
+启动项目前要先用webpack打包相关js
+
 
 前台展示系统与后台管理系统分开所以需进入各自的项目安装
 npm install 
