@@ -1,3 +1,5 @@
+相关技术栈：express + mongoose + layui +webpack
+
 
 
 2020.04.06
@@ -21,6 +23,9 @@
 
 博客APP、H5、微信公众号均完成测试
 与pc端共用一个数据库且接口基于express后台
+
+后台管理：
+账号：admin 密码iblog1234
 
 快去体验吧！！！
 

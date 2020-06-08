@@ -1,3 +1,4 @@
+
 import User from '../models/user'
 
 User.find({
@@ -8,7 +9,7 @@ User.find({
     if (doc.length === 0) {
         let adminUser = new User({
             userName: "admin",
-            password: "1",
+            password: "iblog1234",
             type: 0,
             gender: 1,
             nick: "神奇的海蛎仔"
