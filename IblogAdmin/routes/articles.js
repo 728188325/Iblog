@@ -174,7 +174,7 @@ router.post('/uploadArticleImg',async function(req,res,next){
                 console.log('文章图片上传成功');
                 let nameArr = dstPath.split(".");
                 let endFileName = nameArr[nameArr.length-1];
-                let newfilename = '/wordUploads/iblogmessage' + Date.now() + parseInt(Math.random() * 8999 +10000)+"."+endFileName;
+                let newfilename = '/uploadArticleImg/iblogmessage' + Date.now() + parseInt(Math.random() * 8999 +10000)+"."+endFileName;
                 let newfilepath = './public'+newfilename;
                 var oldfliepath = './public'+dstPath;
                 fs.rename(oldfliepath,newfilepath, function(err){
@@ -225,7 +225,7 @@ router.post('/uploadThumbnail',async function(req,res,next){
                 console.log('文章缩略图上传成功');
                 let nameArr = dstPath.split(".");
                 let endFileName = nameArr[nameArr.length-1];
-                let newfilename = '/wordUploads/iblogmessage' + Date.now() + parseInt(Math.random() * 8999 +10000)+"."+endFileName;
+                let newfilename = '/uploadThumbnails/iblogmessage' + Date.now() + parseInt(Math.random() * 8999 +10000)+"."+endFileName;
                 let newfilepath = './public'+newfilename;
                 var oldfliepath = './public'+dstPath;
                 fs.rename(oldfliepath,newfilepath, function(err){

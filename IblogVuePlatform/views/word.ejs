@@ -1,0 +1,92 @@
+<%- include('./partials/header.ejs') %>
+    <title>Iblog后台管理系统-留言板</title>
+</head>
+<body class="layui-layout-body">
+    
+    <%- include('./partials/nav.ejs') %>
+    <%- include('./partials/left.ejs',{currentUrl:'/admin/word'}) %>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>留言板列表</legend>
+            </fieldset>
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+        </div>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <script>
+        /**
+         * @description: 跳转到文章详情
+         * @param id{Sting} 文章id 
+         * @return: 
+         */
+        function skipDetail(id){
+            let page =  $(".layui-laypage-em").next().html();
+            //分页数目
+            let limit = $(".layui-laypage-limits").find("option:selected").val();
+            let url = '/admin/words/detail?id='+id+'&page='+page+'&limit='+limit;
+            window.location.href = url;
+        }
+        layui.use('table', function () {
+            var table = layui.table;
+            table.render({
+                elem: '#test',
+                url: '/admin/words',
+                page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    curr: getUrlParam("page")||1, //设定初始在第 5 页
+                    limit: getUrlParam("limit")||10,
+                    limits: [2, 5, 10, 20, 50],
+                    groups: 5, //只显示 1 个连续页码
+                    first: false, //不显示首页
+                    last: false //不显示尾页
+                },
+                cols: [[
+                    { type: 'numbers' },
+                    {
+                        field: 'content', minWidth: 250, title: '内容', sort: true, templet: function (d) {
+                            return '<a href="javascript:;" onclick="skipDetail(\''+d._id+'\')">' +d.content + '</a>';
+                        }
+                    },
+                    { field: 'from', width: 100, title: '来自', sort: true },
+                    { field: 'createTime', width: 165, title: '留言时间', sort: true },
+                    { field: 'thumbUp', width: 120, title: '点赞数', sort: true },
+                    { width: 110, title: '操作', toolbar: '#barDemo' }
+                ]]
+            });
+            //监听行工具事件
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'del') {
+                    layer.confirm('您确认删除该留言及其评论吗？', function (index) {
+                        $.ajax({
+                            type: "post",
+                            url: "/admin/words/delete",
+                            data: {
+                                id: obj.data._id
+                            },
+                            dataType: "json",
+                            success: (data) => {
+                                layer.msg(data.msg, { time: 2000 });
+                                if (data.status == 200) {
+                                    //obj.del();删除视图
+                                    //刷新本页
+                                    $(".layui-laypage-btn").click();
+                                }
+                            }
+                        })
+                        layer.close(index);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

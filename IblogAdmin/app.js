@@ -45,8 +45,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // session配置
 app.use(session({
-  secret: 'iblog',
-  name: 'name',
+  secret: 'iblogAdmin',
+  name: 'iblogAdmin',
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -57,6 +57,7 @@ app.use(flash());
 
 // 访问网站/根路径判断是否登录，登录直接跳转到管理平台
 app.get("/",function(req,res,next){
+    console.log(req.session,"==============")
   if(!req.session.userInfo){
     return res.redirect('/admin/login');
   }else{

@@ -22,4 +22,4 @@ function mobile_device_detect(url) {
         return false
     }
 }
-mobile_device_detect("http://39.107.61.146:3001/h5/");
+//mobile_device_detect("http://39.107.61.146:3001/h5/");

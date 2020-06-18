@@ -1,5 +1,5 @@
-相关技术栈：express + mongoose + layui +webpack
 
+相关技术栈：express+mongoose+layui+webpack+vue+elementUI+uniApp
 
 
 2020.04.06
@@ -29,7 +29,10 @@
 
 快去体验吧！！！
 
-
+2020-06-18 vue后台系统正式上线啦
+用vue-cli搭建的项目打包放在IblogVuePlatform项目中
+IblogVuePlatform后台系统登录后访问vue的elementUI框架系统（127.0.0.1:3002/#/msglist）
+原来的layui框架系统没删除，得先登录再访问（127.0.0.1:3002/admin）
 
 
 

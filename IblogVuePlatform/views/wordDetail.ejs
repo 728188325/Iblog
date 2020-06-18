@@ -1,0 +1,132 @@
+<%- include('./partials/header.ejs') %>
+<title>Iblog后台管理系统-主页</title>
+<style>
+    .main{
+        padding: 0 20px;
+    }
+    .detail {
+        padding: 10px;
+        margin-bottom: 15px;
+        ;
+        background-color: #ffc;
+    }
+    .detail img{
+        max-width:100%;
+    }
+
+    .detail h2 {
+        font-family: 'Eater', cursive;
+        font-size: 14px;
+        padding-bottom: 10px;
+        padding-top: 5px;
+    }
+
+    .detail p {
+        max-width:100%;
+        font-size: 14px;
+        color: #656565;
+        word-break: break-all;
+        font-weight: 500;
+    }
+
+    .detail .bottom {
+        padding-top: 10px;
+    }
+
+    .detail h3 {
+        font-family: 'Eater', cursive;
+        color: rgba(33, 33, 33, 0.7);
+        width: 200px;
+    }
+
+    .detail h4 {
+        text-align: right;
+        z-index: 9999;
+        font-size: medium;
+        cursor: pointer;
+    }
+    .comment-box{
+        position: relative;
+        padding-right: 80px;
+    }
+    .comment-del{
+        position: absolute;
+        top: 50%;
+        right: 0;
+        margin-top: -19px;
+    }
+</style>
+</head>
+
+<body class="layui-layout-body">
+
+    <%- include('./partials/nav.ejs') %>
+    <%- include('./partials/left.ejs',{currentUrl:'/admin/word'}) %>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <button type="button" class="layui-btn" id="back-btn">返回</button>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>留言详情</legend>
+            </fieldset>
+            <div class="main">
+                <div class="detail">
+                    <div name="liContent">
+                        <h2><%= data.createTime %></h2>
+                        <p><%- data.content %></p>
+                    </div>
+                    <div class="bottom clearfix">
+                        <h3 class="fl">来自: <%= data.from %></h3>
+                        <h4>
+                            <i class="layui-icon layui-icon-praise"></i>
+                            <span id="l_bfa4c422-8465-495a-bdec-6681edf872a5">（<%= data.thumbUp %>）</span>
+                        </h4>
+                    </div>
+                </div>
+                <div class="site-text site-block" id="msgList">
+                    <% for(let i=data.commentList.length-1;i>=0;i--){ %>
+                        <div class="comment-box">
+                            <blockquote class="layui-elem-quote" cid="<%= data.commentList[i]._id %>">
+                                <%= moment(data.commentList[i].commentTime).format("YYYY-MM-DD HH:mm:ss") %>：<%= data.commentList[i].content %>
+                            </blockquote>
+                            <button type="button" class="layui-btn comment-del"><i class="layui-icon"></i></button>
+                        </div>
+                    <% } %>
+                    <!-- <blockquote class="layui-elem-quote">2020-04-21 21:2:45：hahah </blockquote> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+    <script>
+        layui.use('layer', function () {
+            const layer = layui.layer;
+            $("#back-btn").on("click",function(){
+                let page = getUrlParam("page")||1;
+                let limit = getUrlParam("limit")||10;
+                let url = '/admin/word?page='+page+'&limit='+limit;
+                window.location.href = url;
+            })
+            $(".comment-del").on("click",function(){
+                let that = this;
+                let id = $(that).prev().attr("cid");
+                $.ajax({
+                    type: "post",
+                    url: "/admin/words/comment/delete",
+                    data: {id:id},
+                    dataType: "json",
+                    success: (data) => {
+                        layer.msg(data.msg, { time: 2000 });
+                        if(data.status==200){
+                            $(that).parent().remove();
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>
