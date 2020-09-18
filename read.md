@@ -37,6 +37,14 @@ IblogVuePlatform后台系统登录后访问vue的elementUI框架系统（127.0.0
 
 
 
+项目：
+Iblog: 博客前台项目（express+ejs）
+IblogAdmin: 博客后台管理项目（express+layerui框架）
+iblogadminvue: 博客后台管理系统前端项目（elementUI框架）
+iblogApp: 博客APP（uni_app项目）
+IblogVuePlatform: 博客后台管理项目（express+vue打包项目；前后端分离）
+
+
 
 
 
